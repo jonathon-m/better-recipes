@@ -1642,6 +1642,19 @@ component-emitter@^1.2.1:
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
   integrity sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==
 
+compromise-dates@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/compromise-dates/-/compromise-dates-2.2.1.tgz#c04d22f1f95850e5ce8b0ab225b1671639207369"
+  integrity sha512-mtdK67DR4EvowLLh0YJ3aMxMtKXDViQBJTNNdHI5ck+DVhCCd7rYnNcwC2eSES+3tup1JB9+InOzmvyEuFyjLQ==
+  dependencies:
+    spacetime "6.16.0"
+    spacetime-holiday "0.1.0"
+
+compromise-numbers@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/compromise-numbers/-/compromise-numbers-1.4.0.tgz#22e545923243333bc1e8a2e82da2e922afb50400"
+  integrity sha512-3ceRpwZIWduVSMYn54ET1ELdI7bvXQk42uDwxffxiJBxgKCwcCfVbiLuTG62cI+qTHchwLDh4vp9i3WARXROFQ==
+
 compromise@^13.11.3:
   version "13.11.3"
   resolved "https://registry.yarnpkg.com/compromise/-/compromise-13.11.3.tgz#3f6b687fbefdbd1ef674f263f6e5c06b29c324d9"
@@ -6059,6 +6072,16 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+
+spacetime-holiday@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/spacetime-holiday/-/spacetime-holiday-0.1.0.tgz#e680d17e0ac26e36b2101ee4ac40eb642b6d31d4"
+  integrity sha512-rYIpSDbHnznZRstUrmYYFAaruW8e96t+1JfS0b6qMiAAQ2DrkLKc8oMotAAkB9qMTUwXXf5bIkdTHfP434uitQ==
+
+spacetime@6.16.0:
+  version "6.16.0"
+  resolved "https://registry.yarnpkg.com/spacetime/-/spacetime-6.16.0.tgz#f213963392eafc380716c3857b23251de87db97f"
+  integrity sha512-mkuniNOp6ssfPyJidj81tb54zKxK4vEKPTmcUsC/NEGIF8S07ppoSotdg6numT1/26rthQYmdxMY/M5a9WeJVQ==
 
 spdx-correct@^3.0.0:
   version "3.1.1"

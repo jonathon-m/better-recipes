@@ -1,24 +1,14 @@
 import { motion } from "framer-motion";
 import { Ingredient } from "../models/ingredient";
+import { Step } from "../models/step";
 import IngredientRow from "./ingredientRow";
 
-export default function IngredientList(props: { ingredients: Ingredient[] }) {
-  return (
-    <>
-    <motion.div 
-      initial={{ x: 300, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: -300, opacity: 0 }}
-        className="max-w-md py-12 px-12 bg-white sm:rounded-lg ring-2 ring-green-400">
-      {props.ingredients.map((ingredient: Ingredient) => {
-        return (
-          <IngredientRow
-            key={ingredient.id}
-            ingredient={ingredient}
-          ></IngredientRow>
-        );
-      })}
-    </motion.div>   
-    </>
-  );
+export default function IngredientList(props: { ingredients: Ingredient[], step: Step }) {
+  return <motion.div 
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 0.3 }}
+  className="p-8 md:p-12 bg-white rounded-lg ring-2 ring-green-400  w-full h-full">
+      { props.ingredients.map(ing => <IngredientRow key={ing.id} ingredient={ing} />)}
+  </motion.div>
 }

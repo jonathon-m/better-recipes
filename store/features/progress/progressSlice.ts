@@ -18,6 +18,9 @@ const progressSlice = createSlice({
     nextStep(state: Progress) {
         state.stepIndex += 1
     },
+    prevStep(state: Progress) {
+        state.stepIndex -= 1
+    },
     toggleIngredientUsed(state: Progress, action: PayloadAction<string>) {
         const index = state.ingredientsUsed.indexOf(action.payload)
         if (index > -1) {
@@ -37,5 +40,5 @@ const progressSlice = createSlice({
   },
 })
 
-export const { startRecipe, nextStep, toggleIngredientReady, toggleIngredientUsed } = progressSlice.actions
+export const { startRecipe, nextStep, prevStep, toggleIngredientReady, toggleIngredientUsed } = progressSlice.actions
 export default progressSlice.reducer

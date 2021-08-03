@@ -4,12 +4,14 @@ import {
     getInstructionClauses, 
     getInstructionVerb, 
     indicatesConcurrentAction, 
-    getDependencyNouns } from './nlp';
+    getDependencyNouns, 
+    getInstructionTime} from './nlp';
 import { RecipeData } from '../models/recipeData';
 import { Recipe } from '../models/recipe';
 import { Ingredient } from '../models/ingredient';
 import { Instruction } from '../models/instruction';
 import { Step } from '../models/step';
+import { Duration } from '../models/duration';
 
 export class RecipeParser {
     
@@ -37,13 +39,14 @@ export class RecipeParser {
                 const concurrent = indicatesConcurrentAction(clause);
                 const dependencies: string[] = [];
                 const possibleIngredients = getDependencyNouns(clause);
+                const duration = getInstructionTime(clause)
                 for (const noun of possibleIngredients) {
                     let ingredientId = this.ingredientsLookup.get(noun)
                     if (ingredientId) {
                         dependencies.push(ingredientId)
                     }
                 }
-                let action = this.createInstruction(verb, clause, dependencies.concat(lastActions), concurrent);
+                let action = this.createInstruction(verb, clause, dependencies.concat(lastActions), duration, concurrent);
                 if (concurrent) {
                     lastActions.push(action.id)
                 } else {
@@ -73,12 +76,11 @@ export class RecipeParser {
         return newIng
     }
 
-    private createInstruction(label: string, text: string, ingredients: string[], concurrent: boolean = false): Instruction {
+    private createInstruction(label: string, text: string, ingredients: string[], duration: number, concurrent: boolean = false): Instruction {
         const instruction: Instruction = {
             id: uuidv4(),
             text,
-            duration: 0,
-            durationUnits: 'mins',
+            duration,
             ingredients,
             labels: [label]
         }

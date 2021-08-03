@@ -14,12 +14,11 @@ const start = () => {
     dispatch(startRecipe())
 }
 
-  return <>
-        <motion.div 
-      initial={{ x: 100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: -100, opacity: 0 }}
-        className="max-w-md py-12 px-12 bg-white sm:rounded-lg ring-2 ring-green-400">
+  return <motion.div 
+            initial={{ x: '-25%', y: '-50%', opacity: 0}}
+            animate={{ x: '-50%', opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="w-11/12 md:w-1/2 max-w-md py-12 px-12 bg-white rounded-lg ring-2 ring-green-400 absolute top-1/2 left-1/2">
             <div className="flex justify-center md:justify-end -mt-20">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -47,7 +46,7 @@ const start = () => {
                     Start cooking!
                 </button>
             </div>
-        </motion.div>
-</>
+    </motion.div>
+
 
 }
