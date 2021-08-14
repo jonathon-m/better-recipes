@@ -1,6 +1,7 @@
 import { Instruction } from "./instruction";
 
 export interface Step {
-    index: number,
+    index: number
     instructions: Instruction[]
+    ingredients: string[]
   }

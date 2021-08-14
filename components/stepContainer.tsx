@@ -1,17 +1,13 @@
 import { motion, PanInfo } from "framer-motion";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Instruction } from "../models/instruction";
 import { Step } from "../models/step";
-import { nextStep, prevStep } from "../store/features/progress/progressSlice";
 
 import InstructionCard from "./instruction";
 
-export default function StepContainer(props: { step: Step }) {
+export default function StepContainer(props: { step: Step, prev: () => void, next: () => void }) {
 
-    const dispatch = useDispatch()
-
-    const swipeThreshold = 100;
+    const swipeThreshold = 100
 
     const [xPan, setXPan] = useState(0)
     const [rotate, setRotate] = useState(0)
@@ -34,9 +30,9 @@ export default function StepContainer(props: { step: Step }) {
     function onPanEnd(event: any, info: PanInfo) {
         const diff = info.point.x - xStart
         if (diff > swipeThreshold) {
-            dispatch(prevStep())
+            props.prev()
         } else if (diff < -swipeThreshold) {
-            dispatch(nextStep())
+            props.next()
         } else {
             setXPan(0)
             setRotate(0)

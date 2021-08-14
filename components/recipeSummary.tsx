@@ -1,9 +1,11 @@
 import { motion } from "framer-motion"
+import React from "react"
 import { useDispatch } from "react-redux"
 import { Ingredient } from "../models/ingredient"
 import { Recipe } from "../models/recipe"
 import { startRecipe } from "../store/features/progress/progressSlice"
 import { AppDispatch } from "../store/store"
+import IngredientCrossable from "./ingredientCrossable"
 
 
 export default function RecipeSummary(props: { recipe: Recipe } ) {
@@ -31,7 +33,7 @@ const start = () => {
             </div>
             <div className="py-2">
             {props.recipe.ingredients.map((ingredient: Ingredient) => (
-                <p key={ingredient.id}>{ingredient.text}</p>))
+                <IngredientCrossable key={ingredient.id} ingredient={ingredient}></IngredientCrossable>))
             }
             </div>
             <div className="py-4 grid grid-cols-3 grid-rows-1 place-items-center text-gray-500">

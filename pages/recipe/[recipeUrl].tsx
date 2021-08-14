@@ -3,20 +3,25 @@ import { useRouter } from 'next/router'
 import { skipToken } from "@reduxjs/toolkit/dist/query/react"
 
 import RecipeSummary from "../../components/recipeSummary"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { AnimatePresence } from "framer-motion"
 import RecipeContainer from "../../components/recipeContainer"
 import RecipeLoading from "../../components/recipeLoading"
 import RecipeError from "../../components/recipeError"
+import { setUrl } from "../../store/features/progress/progressSlice"
 
 
 export default function RecipePage() {
   
   const router = useRouter()
   const { recipeUrl } = router.query
+  const encodedUrl = encodeURIComponent(recipeUrl as string)
 
-  const { data, error, isLoading, isUninitialized } = useGetRecipeByUrlQuery(recipeUrl ? encodeURIComponent(recipeUrl as string) : skipToken)
+  const dispatch = useDispatch()
+  dispatch(setUrl(encodedUrl))
+
+  const { data, error, isLoading, isUninitialized } = useGetRecipeByUrlQuery(encodedUrl ? encodedUrl : skipToken)
 
   const started = useSelector((state: RootState) => state.progress.started)
 

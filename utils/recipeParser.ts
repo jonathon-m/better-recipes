@@ -11,7 +11,6 @@ import { Recipe } from '../models/recipe';
 import { Ingredient } from '../models/ingredient';
 import { Instruction } from '../models/instruction';
 import { Step } from '../models/step';
-import { Duration } from '../models/duration';
 
 export class RecipeParser {
     
@@ -90,11 +89,14 @@ export class RecipeParser {
         if (!concurrent) {
             this.steps.push({
                 index: this.stepCount,
-                instructions: [instruction]
+                instructions: [instruction],
+                ingredients: instruction.ingredients
             });
             this.stepCount += 1;
         } else {
             this.steps[this.steps.length-1].instructions.push(instruction);
+            this.steps[this.steps.length-1].ingredients = 
+                this.steps[this.steps.length-1].ingredients.concat(instruction.ingredients);
         }
         
         return instruction

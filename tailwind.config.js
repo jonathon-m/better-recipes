@@ -5,8 +5,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: theme => ({
-       'apple-pattern': "url('/fruit/apple-light.svg')",
-       'carrot-pattern': "url('/fruit/carrot-light.svg')",
+       'apple-pattern': "url('/ingredients/apple-light.svg')",
+       'carrot-pattern': "url('/ingredients/carrot-light.svg')",
       })
     },
     backgroundSize: {

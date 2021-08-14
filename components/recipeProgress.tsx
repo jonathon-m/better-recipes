@@ -5,18 +5,7 @@ import { RootState } from "../store/store"
 import { nextStep, prevStep } from "../store/features/progress/progressSlice";
 import Stepper from "./stepper";
 
-export default function RecipeProgress(props: { recipe: Recipe } ) {
-
-const progress = useSelector((state: RootState) => state.progress);
-
-const dispatch = useDispatch();
-
-const back = () => {
-    dispatch(prevStep())
-}
-const next = () => {
-    dispatch(nextStep())
-}
+export default function RecipeProgress(props: { recipe: Recipe, prev: () => void, next: () => void } ) {
 
   return <motion.div 
         initial={{ opacity: 0 }}
@@ -26,7 +15,7 @@ const next = () => {
 
             <button 
                 className="col-span-1 bg-green-600 hover:bg-green-700 text-white font-bold py-1 my-1 md:py-2 md:px-4 rounded-full"
-                onClick={back}>
+                onClick={props.prev}>
                     Back
             </button>
 
@@ -36,7 +25,7 @@ const next = () => {
             
             <button 
                 className="col-span-1 bg-green-600 hover:bg-green-700 text-white font-bold py-1 my-1 md:py-2 md:px-4 rounded-full"
-                onClick={next}>
+                onClick={props.next}>
                     Next
             </button>
         </motion.div>
