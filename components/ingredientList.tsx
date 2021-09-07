@@ -1,26 +1,55 @@
-import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
-import { Ingredient } from "../models/ingredient";
-import { Step } from "../models/step";
-import { RootState } from "../store/store";
-import IngredientRow from "./ingredientRow";
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Ingredient } from '../models/ingredient';
+import { Instruction } from '../models/instruction';
+import { Recipe } from '../models/recipe';
+import { RootState } from '../store/store';
+import BorderBox from './borderBox';
+import IngredientRow from './ingredientRow';
+import RecipeMeta from './recipeMeta';
 
-export default function IngredientList(props: { ingredients: Ingredient[], step: Step }) {
+export default function IngredientList(props: { recipe: Recipe }) {
+  const { instructionsCompleted } = useSelector(
+    (state: RootState) => state.progress
+  );
 
-  const { ingredientsCurrent, ingredientsUsed } = useSelector((state: RootState) => state.progress)
-  
-  return <motion.div 
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ delay: 0.3 }}
-  className="p-8 md:p-12 bg-white rounded-lg ring-2 ring-green-400 w-full h-full divide-y-2 divide-green-600 divide-dashed overflow-y-auto ">
-      { props.ingredients.map((ing, i) => 
-      <div className={ingredientsCurrent.includes(ing.id) ? 'py-2' : 'hidden md:block py-2'} key={ing.id+i} >
-        <IngredientRow 
-          ingredient={ing} 
-          isCurrent={ingredientsCurrent.includes(ing.id)}
-          isUsed={ingredientsUsed.includes(ing.id)}/>
-        </div>)}
+  const [ingredientsUsed, setIngredientsUsed] = useState<string[]>([]);
+  useEffect(() => {
+    setIngredientsUsed(
+      getUsed(props.recipe.instructions, instructionsCompleted)
+    );
+  }, [props.recipe.instructions, instructionsCompleted]);
 
-  </motion.div>
+  return (
+    <BorderBox className='h-full md:-mt-4 md:ml-4 overflow-y-auto overscroll-y-auto scrollbar-hide'>
+      <RecipeMeta {...props} />
+      <div className='divide-y-2 divide-green-600 divide-dashed'>
+        {props.recipe.ingredients.map((ing, i) => (
+          <motion.div
+            className={'hidden md:block py-2'}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 * i }}
+            key={ing.id + i}
+          >
+            <IngredientRow
+              ingredient={ing}
+              isUsed={ingredientsUsed.includes(ing.id)}
+            />
+          </motion.div>
+        ))}
+      </div>
+    </BorderBox>
+  );
+}
+
+function getUsed(instructions: Instruction[], completed: string[]) {
+  const instructionsCompleted = instructions.filter((inst) =>
+    completed.includes(inst.id)
+  );
+  return instructionsCompleted.reduce(
+    (acc: string[], curr) => acc.concat(curr.ingredients),
+    []
+  );
 }

@@ -1,8 +1,6 @@
 export interface Progress {
-    url: string
-    started: boolean
-    stepIndex: number
-    ingredientsCurrent: string[]
-    ingredientsUsed: string[]
-
+  url: string;
+  started: boolean;
+  instructionsCompleted: string[];
+  ingredientsUsed: string[];
 }
