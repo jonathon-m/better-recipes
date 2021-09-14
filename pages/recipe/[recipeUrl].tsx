@@ -13,6 +13,8 @@ import RecipeLoading from '../../components/recipeLoading';
 import RecipeError from '../../components/recipeError';
 import { setUrl } from '../../store/features/progress/progressSlice';
 import { Toaster } from 'react-hot-toast';
+import SettingsMenu from '../../components/settingsMenu';
+import { MouseEvent, useState } from 'react';
 
 export default function RecipePage() {
   const router = useRouter();
@@ -28,17 +30,37 @@ export default function RecipePage() {
 
   const started = useSelector((state: RootState) => state.progress.started);
 
+  // const [foodBadges, setFoodBadges] = useState<any[]>([]);
+
+  // const addFoodBadge = (e: MouseEvent) => {
+  //   setFoodBadges([...foodBadges, { x: e.screenX, y: e.screenY }]);
+  // };
+
   return (
     <>
-      <div className='bg-better-green bg-wave bg-cover w-screen h-screen overflow-hidden'>
+      <div
+        id='background'
+        className='bg-better-green bg-wave bg-cover w-screen h-screen overflow-hidden'
+      >
         <AnimatePresence>
           {data && !started && <RecipeSummary key='summary' recipe={data} />}
           {data && started && <RecipeContainer key='container' recipe={data} />}
           {error && <RecipeError key='error' />}
           {(isLoading || isUninitialized) && <RecipeLoading key='loading' />}
+          <SettingsMenu />
         </AnimatePresence>
 
         <Toaster position='bottom-right' />
+        {/* {foodBadges.map((b, i) => (
+          <div key={i} style={{ top: b.y, left: b.x }} className='absolute'>
+            <Image
+              alt='Bouncing fruit'
+              src='/ingredients/chili-pepper.svg'
+              width='70'
+              height='70'
+            />
+          </div>
+        ))} */}
       </div>
     </>
   );

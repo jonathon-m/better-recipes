@@ -17,7 +17,7 @@ export default function Home() {
         className='max-w-md py-12 px-12 bg-white rounded-lg ring-2 ring-better-green'
       >
         <h1 className='text-center text-3xl md:text-5xl font-bold m-4 md:m-6'>
-          Better Recipe
+          Better Recipes
         </h1>
         <SearchBar search={onUrlSubmit}></SearchBar>
       </motion.div>

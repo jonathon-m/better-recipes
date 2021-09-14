@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { MouseEvent } from 'react';
 
 export default function BorderBox(props: any) {
   const childProps = {
@@ -8,7 +9,14 @@ export default function BorderBox(props: any) {
     ...props,
     className:
       (!!props.className ? props.className : '') +
-      ' p-2 md:p-8 bg-white rounded-lg m-2 shadow-xl z-50',
+      ' p-2 md:p-8 bg-white rounded-lg m-4 shadow-xl z-50',
   };
-  return <motion.div {...childProps}>{props.children}</motion.div>;
+  return (
+    <motion.div
+      onClick={(e: MouseEvent) => e.stopPropagation()}
+      {...childProps}
+    >
+      {props.children}
+    </motion.div>
+  );
 }

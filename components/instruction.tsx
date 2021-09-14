@@ -8,8 +8,8 @@ import { AppDispatch, RootState } from '../store/store';
 import IngredientIcon from './ingredientIcon';
 import BorderBox from './borderBox';
 import { completeInstruction } from '../store/features/progress/progressSlice';
-import React, { useState } from 'react';
-import { Check } from 'react-feather';
+import React, { useEffect, useRef, useState } from 'react';
+import IngredientRow from './ingredientRow';
 
 export default function InstructionCard(props: {
   instruction: Instruction;
@@ -21,17 +21,41 @@ export default function InstructionCard(props: {
     (state: RootState) => state.progress
   );
   const { data } = useGetRecipeByUrlQuery(url);
-  const [showDone, setShowDone] = useState(false);
+  const [isCurrent, setIsCurrent] = useState(
+    props.currentIndex - instructionsCompleted.length === 0
+  );
+  const isCheckedRef = useRef<boolean>();
+  const [isChecked, setIsChecked] = useState(false);
 
-  const complete = () => {
-    dispatch(completeInstruction(props.instruction.id));
+  useEffect(() => {
+    setIsCurrent(props.currentIndex - instructionsCompleted.length === 0);
+    isCheckedRef.current = isChecked;
+    setTimeout(() => {
+      if (isCheckedRef.current) {
+        dispatch(completeInstruction(props.instruction.id));
+        setIsChecked(false);
+      }
+    }, 500);
+  }, [
+    props.currentIndex,
+    instructionsCompleted.length,
+    isChecked,
+    props.instruction.id,
+    dispatch,
+  ]);
+
+  const handleOnChange = () => {
+    if (isCurrent) {
+      setIsChecked(!isChecked);
+    }
   };
 
   return (
     <AnimatePresence>
       {props.show && (
         <BorderBox
-          className='mb-2 md:mb-4 md:mr-4 first:mt-4 first:block'
+          onClick={handleOnChange}
+          className='select-none p-0 md:p-0 mb-2 md:mb-4 md:mr-4 md:ml-0 last:mb-20 first:mt-20 md:first:mt-4 first:block'
           exit={{
             opacity: 0,
             height: 0,
@@ -40,42 +64,48 @@ export default function InstructionCard(props: {
           }}
           transition={{ opacity: { delay: 0 } }}
         >
-          <div className='grid grid-cols-6 grid-rows-1'>
-            <div className=' row-span-1 col-span-5'>
-              <h2 className='text-gray-800 text-xl md:text-3xl font-semibold w-full capitalize'>
-                {props.instruction.labels[0] || ''}
-              </h2>
-              <p className='mt-2 text-gray-600'>{props.instruction.text}</p>
-              {data &&
-                props.instruction.ingredients.map((ing, i) => (
-                  <IngredientIcon
-                    key={ing + i}
-                    ingredient={data.ingredients.find((i) => i.id === ing)}
-                  />
-                ))}
+          <div
+            className={
+              'relative p-6 md:p-8' +
+              (props.instruction.duration > 0 ? ' pb-20 md:pb-20' : '')
+            }
+          >
+            <div className='grid grid-cols-12 grid-rows-1'>
+              <div className='col-span-1'>
+                {isCurrent && (
+                  <input
+                    type='checkbox'
+                    className='rounded-full mt-1 checked:bg-better-blue checked:border-transparent w-6 h-6'
+                    checked={isChecked}
+                    onChange={handleOnChange}
+                  ></input>
+                )}
+              </div>
+              <div className='col-span-9'>
+                <h2 className='text-gray-800 text-xl md:text-3xl font-semibold w-full capitalize'>
+                  {props.instruction.labels[0] || ''}
+                </h2>
+                <p className='my-2 text-gray-600'>{props.instruction.text}</p>
+                <div className='md:hidden'>
+                  {data &&
+                    props.instruction.ingredients.map((ing, i) => (
+                      <IngredientRow
+                        ingredient={data.ingredients.find((i) => i.id === ing)}
+                        key={i}
+                      />
+                      // <IngredientIcon
+                      //   key={ing + i}
+                      //   ingredient={}
+                      // />
+                    ))}
+                </div>
+              </div>
+              {/* <div className='col-span-2 text-right'>
+                {isCurrent && <span className='pl-3 pr-2'>In Progress</span>}
+              </div> */}
             </div>
-            <div className='col-span-1 text-right'>
-              {props.currentIndex - instructionsCompleted.length === 0 && (
-                <button
-                  className='text-center bg-better-blue hover:bg-better-green text-white font-bold py-2 px-4 rounded-full'
-                  onClick={complete}
-                  onMouseEnter={() => setShowDone(true)}
-                  onMouseLeave={() => setShowDone(false)}
-                >
-                  {showDone ? (
-                    <span className='pl-3 pr-2'>
-                      Done
-                      <Check className='inline-block pl-1' />
-                    </span>
-                  ) : (
-                    <>In Progress</>
-                  )}
-                </button>
-              )}
-            </div>
-
             {props.instruction.duration > 0 && (
-              <div className='col-span-6 text-right'>
+              <div className='w-3/4 md:w-1/2 lg:w-1/3 absolute bottom-0 right-0'>
                 <TimerButton duration={props.instruction.duration} />
               </div>
             )}

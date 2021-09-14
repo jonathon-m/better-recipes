@@ -37,6 +37,7 @@ export const EXTENDED_WORD_TYPES = {
 
   // I don't want these to be verbs
   be: '#Activity',
+  run: '#Activity',
   let: '#Activity',
   bring: '#Activity',
   // Other

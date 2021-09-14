@@ -24,11 +24,11 @@ export default function RecipeSummary(props: { recipe: Recipe }) {
       transition={{ delay: 0 }}
       className='w-full h-8/10 md:w-1/2 max-w-md absolute top-1/2 left-1/2 -m-px rounded-none sm:rounded-lg'
     >
-      <div className='flex justify-center md:justify-end -mt-12'>
+      <div className='flex justify-center md:justify-end -mt-24'>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt='Result of recipe'
-          className='w-20 h-20 object-cover rounded-full border-2 border-green-600'
+          className='w-40 h-40 object-cover rounded-full border-4 border-better-green'
           src={props.recipe.image}
         />
       </div>

@@ -1,8 +1,8 @@
 import { Ingredient } from '../models/ingredient';
 
 export default function IngredientRow(props: {
-  ingredient: Ingredient;
-  isUsed: boolean;
+  ingredient: Ingredient | undefined;
+  isUsed?: boolean;
 }) {
   function getStyle(): string {
     if (props.isUsed) {
@@ -12,5 +12,11 @@ export default function IngredientRow(props: {
     }
   }
 
-  return <p className={getStyle()}>{props.ingredient.text}</p>;
+  return (
+    <>
+      {props.ingredient && (
+        <p className={getStyle()}>{props.ingredient.text}</p>
+      )}
+    </>
+  );
 }

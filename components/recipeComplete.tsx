@@ -25,7 +25,7 @@ export default function RecipeComplete() {
       >
         <h1 className='text-xl'>Congratulations!</h1>
         <p>
-          Thanks for using Better Recipe.{' '}
+          Thanks for using Better Recipes.{' '}
           <Smile className='inline-block pl-1' />
         </p>
       </BorderBox>

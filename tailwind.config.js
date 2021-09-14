@@ -9,6 +9,14 @@ module.exports = {
         'carrot-pattern': "url('/ingredients/carrot-light.svg')",
         'wave': "url('/wave.svg')",
       }),
+      gridTemplateRows: {
+        // Simple 8 row grid
+        '8': 'repeat(8, minmax(0, 1fr))',
+      },
+      gridRow: {
+        'span-7': 'span 7 / span 7',
+        'span-8': 'span 8 / span 8',
+      },
       colors: {
         'better-pink': {
           DEFAULT: '#ff6392',
@@ -33,7 +41,10 @@ module.exports = {
     }
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['checked'],
+      borderColor: ['checked'],
+    },
   },
   plugins: [
     require('tailwind-scrollbar-hide')

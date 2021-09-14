@@ -22,7 +22,7 @@ export default function IngredientList(props: { recipe: Recipe }) {
   }, [props.recipe.instructions, instructionsCompleted]);
 
   return (
-    <BorderBox className='h-full md:-mt-4 md:ml-4 overflow-y-auto overscroll-y-auto scrollbar-hide'>
+    <BorderBox className='md:ml-4 overflow-y-auto overscroll-y-auto scrollbar-hide'>
       <RecipeMeta {...props} />
       <div className='divide-y-2 divide-green-600 divide-dashed'>
         {props.recipe.ingredients.map((ing, i) => (
