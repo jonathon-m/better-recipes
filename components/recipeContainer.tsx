@@ -1,7 +1,10 @@
 import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Ingredient } from '../models/ingredient';
+import { Instruction } from '../models/instruction';
 import { Recipe } from '../models/recipe';
+import { RecipeData } from '../models/recipeData';
 
 import { RootState } from '../store/store';
 import Header from './header';
@@ -9,7 +12,7 @@ import IngredientList from './ingredientList';
 import InstructionCard from './instruction';
 import RecipeComplete from './recipeComplete';
 
-export default function RecipeContainer(props: { recipe: Recipe }) {
+export default function RecipeContainer(props: { recipe: RecipeData, instructions: Instruction[], ingredients: Ingredient[] }) {
   const { instructionsCompleted } = useSelector(
     (state: RootState) => state.progress
   );
@@ -21,11 +24,11 @@ export default function RecipeContainer(props: { recipe: Recipe }) {
         </div>
 
         <div className='hidden md:block md:row-start-2 md:order-1 md:col-span-2 md:row-span-7 -mt-8'>
-          <IngredientList {...props} />
+          <IngredientList ingredients={props.ingredients} />
         </div>
 
         <div className='md:pt-10 row-span-8 col-span-6 order-1 md:order-2 md:col-span-4 overflow-y-auto overscroll-y-auto scrollbar-hide'>
-          {props.recipe.instructions.map((inst, i) => (
+          {props.instructions.map((inst, i) => (
             <InstructionCard
               key={i}
               currentIndex={i}
