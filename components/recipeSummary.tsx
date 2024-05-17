@@ -2,18 +2,17 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Ingredient } from '../models/ingredient';
-import { RecipeData } from '../models/recipeData';
+import { Recipe } from '../models/recipe';
 import { startRecipe } from '../store/features/progress/progressSlice';
 import { AppDispatch } from '../store/store';
 import BorderBox from './borderBox';
 import IngredientCrossable from './ingredientCrossable';
 import RecipeMeta from './recipeMeta';
 
-export default function RecipeSummary(props: { recipe: RecipeData, ingredients: Ingredient[] }) {
+export default function RecipeSummary(props: { recipe: Recipe }) {
   const dispatch: AppDispatch = useDispatch();
 
   const start = () => {
-    
     dispatch(startRecipe());
   };
 
@@ -37,12 +36,12 @@ export default function RecipeSummary(props: { recipe: RecipeData, ingredients: 
         <h1>{props.recipe.name}</h1>
       </div>
       <div className='py-2'>
-        {props.ingredients.map((ingredient: Ingredient) => (
+        {props.recipe.ingredients.map((ingredient: Ingredient) => (
           <IngredientCrossable key={ingredient.id} ingredient={ingredient} />
         ))}
       </div>
 
-      {/* <RecipeMeta {...props} /> */}
+      <RecipeMeta {...props} />
       <div className='pt-4 text-center'>
         <button
           className='bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full'

@@ -9,18 +9,23 @@ import BorderBox from './borderBox';
 import IngredientRow from './ingredientRow';
 import RecipeMeta from './recipeMeta';
 
-export default function IngredientList(props: { ingredients: Ingredient[] }) {
+export default function IngredientList(props: { recipe: Recipe }) {
   const { instructionsCompleted } = useSelector(
     (state: RootState) => state.progress
   );
 
   const [ingredientsUsed, setIngredientsUsed] = useState<string[]>([]);
+  useEffect(() => {
+    setIngredientsUsed(
+      getUsed(props.recipe.instructions, instructionsCompleted)
+    );
+  }, [props.recipe.instructions, instructionsCompleted]);
 
   return (
     <BorderBox className='md:ml-4 overflow-y-auto overscroll-y-auto scrollbar-hide'>
-      {/* <RecipeMeta {...props} /> */}
+      <RecipeMeta {...props} />
       <div className='divide-y-2 divide-green-600 divide-dashed'>
-        {props.ingredients.map((ing, i) => (
+        {props.recipe.ingredients.map((ing, i) => (
           <motion.div
             className={'hidden md:block py-2'}
             initial={{ opacity: 0 }}

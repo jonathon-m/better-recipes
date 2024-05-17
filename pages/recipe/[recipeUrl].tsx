@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useGetRecipeByUrlQuery, useParseIngredientsMutation } from '../../middleware/recipeAPI';
+import { useGetRecipeByUrlQuery } from '../../middleware/recipeAPI';
 import { useRouter } from 'next/router';
 import { skipToken } from '@reduxjs/toolkit/dist/query/react';
 import Image from 'next/image';
@@ -14,7 +14,7 @@ import RecipeError from '../../components/recipeError';
 import { setUrl } from '../../store/features/progress/progressSlice';
 import { Toaster } from 'react-hot-toast';
 import SettingsMenu from '../../components/settingsMenu';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 export default function RecipePage() {
   const router = useRouter();
@@ -24,19 +24,11 @@ export default function RecipePage() {
   const dispatch = useDispatch();
   dispatch(setUrl(encodedUrl));
 
-  const { data: recipeData, error: recipeError, isLoading: recipeLoading, isUninitialized: recipeUninitialized } = useGetRecipeByUrlQuery(
+  const { data, error, isLoading, isUninitialized } = useGetRecipeByUrlQuery(
     encodedUrl ? encodedUrl : skipToken
   );
 
-  const [parseIngredients, ingredientsData] = useParseIngredientsMutation()
-
   const started = useSelector((state: RootState) => state.progress.started);
-
-  useEffect(() => {
-    if (recipeData) {
-      parseIngredients(recipeData.ingredients)
-    }
-  }, [recipeData])
 
   // const [foodBadges, setFoodBadges] = useState<any[]>([]);
 
@@ -51,20 +43,10 @@ export default function RecipePage() {
         className='bg-better-green bg-wave bg-cover w-screen h-screen overflow-hidden'
       >
         <AnimatePresence>
-          {recipeData && !started && 
-            <RecipeSummary 
-              key='summary' 
-              recipe={recipeData}
-              ingredients={ingredientsData.data || []} />}
-          {recipeData && started && 
-            <RecipeContainer 
-              key='container' 
-              recipe={recipeData}
-              ingredients={ingredientsData.data || []}
-              instructions={[]} />
-          }
-          {recipeError && <RecipeError key='error' />}
-          {(recipeLoading || recipeUninitialized) && <RecipeLoading key='loading' />}
+          {data && !started && <RecipeSummary key='summary' recipe={data} />}
+          {data && started && <RecipeContainer key='container' recipe={data} />}
+          {error && <RecipeError key='error' />}
+          {(isLoading || isUninitialized) && <RecipeLoading key='loading' />}
           <SettingsMenu />
         </AnimatePresence>
 
